@@ -1,3 +1,3 @@
-# A Bevy game template
+# LD 56
 
-see the [original template](https://github.com/NiklasEi/bevy_game_template)
+The Warthogz' Entry for the Ludum Dare 56 Game Jam.
