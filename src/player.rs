@@ -48,7 +48,15 @@ fn move_player(
 		actions.player_movement.unwrap().y * speed * time.delta_seconds(),
 		0.,
 	);
+
+	let rotation = if movement.length_squared() > 0.0 {
+		Quat::from_rotation_arc(Vec3::Y, movement.normalize())
+	} else {
+		Quat::IDENTITY
+	};
+
 	for mut player_transform in &mut player_query {
 		player_transform.translation += movement;
+		player_transform.rotation = rotation;
 	}
 }
