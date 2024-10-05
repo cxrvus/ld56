@@ -2,8 +2,7 @@ use bevy::asset::AssetMetaCheck;
 use bevy::prelude::*;
 use bevy::DefaultPlugins;
 
-mod game;
-use game::GamePlugin;
+use licemind::GamePlugin;
 
 fn main() {
 	App::new()
