@@ -32,8 +32,13 @@ impl Default for ButtonColors {
 #[derive(Component)]
 struct Menu;
 
-fn setup_menu(mut commands: Commands, textures: Res<TextureAssets>) {
+fn setup_menu(
+	mut commands: Commands,
+	textures: Res<TextureAssets>,
+	mut state: ResMut<NextState<GameState>>,
+) {
 	info!("menu");
+	state.set(GameState::Playing);
 	commands.spawn(Camera2dBundle::default());
 	commands
 		.spawn((
