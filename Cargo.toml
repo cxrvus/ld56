@@ -1,8 +1,8 @@
 [package]
-name = "bevy_game" # todo
+name = "licemind"
 version = "0.1.0"
 publish = false
-authors = ["cxrvus"] # todo: set authors
+authors = ["cxrvus", "loudneighbor240"]
 edition = "2021"
 exclude = ["dist", "build", "assets", "credits"]
 
