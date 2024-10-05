@@ -6,6 +6,8 @@ mod loading;
 mod menu;
 mod player;
 
+mod pixels;
+
 use crate::actions::ActionsPlugin;
 use crate::audio::InternalAudioPlugin;
 use crate::loading::LoadingPlugin;

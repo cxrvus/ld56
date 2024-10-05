@@ -1,5 +1,6 @@
 use crate::actions::Actions;
 use crate::loading::{SpriteAssets, TextureAssets};
+use crate::pixels::SPRITE_SCALE;
 use crate::GameState;
 use bevy::prelude::*;
 
@@ -21,8 +22,12 @@ fn spawn_player(mut commands: Commands, sprites: Res<SpriteAssets>) {
 	commands
 		.spawn(SpriteBundle {
 			texture: sprites.louse.clone(),
-			transform: Transform::from_translation(Vec3::new(0., 0., 1.)),
-			..Default::default()
+			transform: Transform {
+				translation: Vec3::new(0., 0., 1.),
+				scale: Vec3::new(SPRITE_SCALE, SPRITE_SCALE, 1.),
+				..default()
+			},
+			..default()
 		})
 		.insert(Player);
 }
