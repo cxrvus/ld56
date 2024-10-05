@@ -7,7 +7,7 @@ use licemind::GamePlugin;
 fn main() {
 	App::new()
 		.insert_resource(Msaa::Off)
-		.insert_resource(ClearColor(Color::linear_rgb(0.4, 0.4, 0.4)))
+		.insert_resource(ClearColor(Color::linear_rgb(0.1, 0.1, 0.1)))
 		.add_plugins(
 			DefaultPlugins
 				.set(WindowPlugin {
