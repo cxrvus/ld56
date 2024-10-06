@@ -28,6 +28,6 @@ fn main() {
 				})
 				.set(ImagePlugin::default_nearest()),
 		)
-		.add_plugins(GamePlugin)
+		.add_plugins(GamePlugin::default())
 		.run();
 }

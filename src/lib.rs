@@ -14,6 +14,8 @@ use crate::audio::InternalAudioPlugin;
 use crate::loading::LoadingPlugin;
 use crate::menu::MenuPlugin;
 
+use bevy_rapier2d::prelude::*;
+
 use bevy::app::App;
 #[cfg(debug_assertions)]
 use bevy::diagnostic::{FrameTimeDiagnosticsPlugin, LogDiagnosticsPlugin};
@@ -33,17 +35,34 @@ enum GameState {
 	Menu,
 }
 
-pub struct GamePlugin;
+pub struct GamePlugin {
+	pxpm: f32,
+	debug_render: bool,
+}
+
+impl Default for GamePlugin {
+	fn default() -> Self {
+		Self {
+			pxpm: 10.,
+			debug_render: true,
+		}
+	}
+}
 
 impl Plugin for GamePlugin {
 	fn build(&self, app: &mut App) {
 		app.init_state::<GameState>().add_plugins((
+			RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(self.pxpm),
 			LoadingPlugin,
 			MenuPlugin,
 			ActionsPlugin,
 			InternalAudioPlugin,
 			AgentPlugin,
 		));
+
+		if self.debug_render {
+			app.add_plugins(RapierDebugRenderPlugin::default());
+		}
 
 		#[cfg(debug_assertions)]
 		{
