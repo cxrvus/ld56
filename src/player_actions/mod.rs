@@ -20,7 +20,7 @@ impl Plugin for ActionsPlugin {
 
 #[derive(Default, Resource)]
 pub struct PlayerActions {
-	pub player_movement: Option<Vec2>,
+	pub player_direction: Option<Vec2>,
 }
 
 pub fn set_movement_actions(
@@ -35,8 +35,8 @@ pub fn set_movement_actions(
 	);
 
 	if player_movement != Vec2::ZERO {
-		actions.player_movement = Some(player_movement.normalize());
+		actions.player_direction = Some(player_movement.normalize());
 	} else {
-		actions.player_movement = None;
+		actions.player_direction = None;
 	}
 }
