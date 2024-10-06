@@ -1,20 +1,21 @@
-use crate::actions::Actions;
+use crate::cfg::{self, SPRITE_SCALE};
 use crate::loading::SpriteAssets;
-use crate::pixels::SPRITE_SCALE;
+use crate::player_actions::PlayerActions;
 use crate::GameState;
 use bevy::prelude::*;
+use bevy_rapier2d::prelude::*;
 
 pub struct AgentPlugin;
-
-#[derive(Component)]
-pub struct Agent;
 
 /// This plugin handles player related stuff like movement
 /// Player logic is only active during the State `GameState::Playing`
 impl Plugin for AgentPlugin {
 	fn build(&self, app: &mut App) {
 		app.add_systems(OnEnter(GameState::Playing), spawn_agent)
-			.add_systems(Update, move_agent.run_if(in_state(GameState::Playing)));
+			.add_systems(
+				Update,
+				(set_agent_movements, move_agent).run_if(in_state(GameState::Playing)),
+			);
 	}
 }
 
@@ -29,34 +30,47 @@ fn spawn_agent(mut commands: Commands, sprites: Res<SpriteAssets>) {
 			},
 			..default()
 		})
-		.insert(Agent);
+		.insert(Agent::default())
+		.insert(RigidBody::Dynamic)
+		.insert(Velocity::default())
+		.insert(LockedAxes::ROTATION_LOCKED)
+		.insert(Collider::ball(10.));
 }
 
-fn move_agent(
+#[derive(Component)]
+pub struct Player;
+
+#[derive(Component, Default)]
+pub struct Agent {
+	pub movement: Vec2,
+	pub rotation: Quat,
+}
+
+fn set_agent_movements(
+	mut agents: Query<&mut Agent>, // todo: without Player
+	actions: Res<PlayerActions>,
 	time: Res<Time>,
-	actions: Res<Actions>,
-	mut player_query: Query<&mut Transform, With<Agent>>,
 ) {
-	if actions.player_movement.is_none() {
-		return;
+	for mut agent in agents.iter_mut() {
+		let movement = actions.player_movement.unwrap_or_default(); // todo: agent AI movement instead of player movement
+
+		// todo: make speed part of agent struct
+		let speed = cfg::BASE_SPEED;
+		let movement = movement * speed * time.delta_seconds();
+
+		let moving = movement.length_squared() > 0.0;
+		if moving {
+			agent.movement = movement;
+			agent.rotation = Quat::from_rotation_arc(Vec3::Y, movement.extend(0.).normalize());
+		} else {
+			agent.movement = Vec2::ZERO;
+		}
 	}
+}
 
-	let speed = 300.;
-
-	let movement = Vec3::new(
-		actions.player_movement.unwrap().x * speed * time.delta_seconds(),
-		actions.player_movement.unwrap().y * speed * time.delta_seconds(),
-		0.,
-	);
-
-	let rotation = if movement.length_squared() > 0.0 {
-		Quat::from_rotation_arc(Vec3::Y, movement.normalize())
-	} else {
-		Quat::IDENTITY
-	};
-
-	for mut player_transform in &mut player_query {
-		player_transform.translation += movement;
-		player_transform.rotation = rotation;
+fn move_agent(mut agents: Query<(&Agent, &mut Transform, &mut Velocity)>) {
+	for (agent, mut transform, mut velocity) in &mut agents {
+		velocity.linvel = agent.movement;
+		transform.rotation = agent.rotation;
 	}
 }

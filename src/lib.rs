@@ -1,18 +1,18 @@
 #![allow(clippy::type_complexity)]
 
-mod actions;
 mod agent;
 mod audio;
 mod loading;
 mod menu;
+mod player_actions;
 
-mod pixels;
+mod cfg;
 
-use crate::actions::ActionsPlugin;
 use crate::agent::AgentPlugin;
 use crate::audio::InternalAudioPlugin;
 use crate::loading::LoadingPlugin;
 use crate::menu::MenuPlugin;
+use crate::player_actions::ActionsPlugin;
 
 use bevy_rapier2d::prelude::*;
 
@@ -43,7 +43,7 @@ pub struct GamePlugin {
 impl Default for GamePlugin {
 	fn default() -> Self {
 		Self {
-			pxpm: 10.,
+			pxpm: 1.,
 			debug_render: true,
 		}
 	}
@@ -51,14 +51,26 @@ impl Default for GamePlugin {
 
 impl Plugin for GamePlugin {
 	fn build(&self, app: &mut App) {
-		app.init_state::<GameState>().add_plugins((
-			RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(self.pxpm),
-			LoadingPlugin,
-			MenuPlugin,
-			ActionsPlugin,
-			InternalAudioPlugin,
-			AgentPlugin,
-		));
+		app.init_state::<GameState>()
+			.add_plugins((
+				RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(self.pxpm),
+				LoadingPlugin,
+				MenuPlugin,
+				ActionsPlugin,
+				InternalAudioPlugin,
+				AgentPlugin,
+			))
+			.insert_resource(RapierConfiguration {
+				gravity: Vec2::ZERO,
+				timestep_mode: TimestepMode::Fixed {
+					dt: 1.0 / 60.0,
+					substeps: 1,
+				},
+				physics_pipeline_active: true,
+				query_pipeline_active: true,
+				scaled_shape_subdivision: default(),
+				force_update_from_transform_changes: false,
+			});
 
 		if self.debug_render {
 			app.add_plugins(RapierDebugRenderPlugin::default());
