@@ -43,7 +43,7 @@ pub struct GamePlugin {
 impl Default for GamePlugin {
 	fn default() -> Self {
 		Self {
-			pxpm: 1.,
+			pxpm: cfg::SPRITE_PX,
 			debug_render: true,
 		}
 	}
