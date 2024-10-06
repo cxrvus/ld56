@@ -1,5 +1,5 @@
 use crate::actions::Actions;
-use crate::loading::{SpriteAssets, TextureAssets};
+use crate::loading::SpriteAssets;
 use crate::pixels::SPRITE_SCALE;
 use crate::GameState;
 use bevy::prelude::*;
