@@ -2,11 +2,11 @@
 
 mod agent;
 mod audio;
+mod cfg;
 mod loading;
+mod map;
 mod menu;
 mod player_actions;
-
-mod cfg;
 
 use crate::agent::AgentPlugin;
 use crate::audio::InternalAudioPlugin;
