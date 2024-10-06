@@ -13,12 +13,12 @@ pub struct Agent;
 /// Player logic is only active during the State `GameState::Playing`
 impl Plugin for AgentPlugin {
 	fn build(&self, app: &mut App) {
-		app.add_systems(OnEnter(GameState::Playing), spawn_player)
-			.add_systems(Update, move_player.run_if(in_state(GameState::Playing)));
+		app.add_systems(OnEnter(GameState::Playing), spawn_agent)
+			.add_systems(Update, move_agent.run_if(in_state(GameState::Playing)));
 	}
 }
 
-fn spawn_player(mut commands: Commands, sprites: Res<SpriteAssets>) {
+fn spawn_agent(mut commands: Commands, sprites: Res<SpriteAssets>) {
 	commands
 		.spawn(SpriteBundle {
 			texture: sprites.louse.clone(),
@@ -32,7 +32,7 @@ fn spawn_player(mut commands: Commands, sprites: Res<SpriteAssets>) {
 		.insert(Agent);
 }
 
-fn move_player(
+fn move_agent(
 	time: Res<Time>,
 	actions: Res<Actions>,
 	mut player_query: Query<&mut Transform, With<Agent>>,
