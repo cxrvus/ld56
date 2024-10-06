@@ -4,14 +4,14 @@ use crate::pixels::SPRITE_SCALE;
 use crate::GameState;
 use bevy::prelude::*;
 
-pub struct PlayerPlugin;
+pub struct AgentPlugin;
 
 #[derive(Component)]
-pub struct Player;
+pub struct Agent;
 
 /// This plugin handles player related stuff like movement
 /// Player logic is only active during the State `GameState::Playing`
-impl Plugin for PlayerPlugin {
+impl Plugin for AgentPlugin {
 	fn build(&self, app: &mut App) {
 		app.add_systems(OnEnter(GameState::Playing), spawn_player)
 			.add_systems(Update, move_player.run_if(in_state(GameState::Playing)));
@@ -29,13 +29,13 @@ fn spawn_player(mut commands: Commands, sprites: Res<SpriteAssets>) {
 			},
 			..default()
 		})
-		.insert(Player);
+		.insert(Agent);
 }
 
 fn move_player(
 	time: Res<Time>,
 	actions: Res<Actions>,
-	mut player_query: Query<&mut Transform, With<Player>>,
+	mut player_query: Query<&mut Transform, With<Agent>>,
 ) {
 	if actions.player_movement.is_none() {
 		return;

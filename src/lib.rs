@@ -1,18 +1,18 @@
 #![allow(clippy::type_complexity)]
 
 mod actions;
+mod agent;
 mod audio;
 mod loading;
 mod menu;
-mod player;
 
 mod pixels;
 
 use crate::actions::ActionsPlugin;
+use crate::agent::AgentPlugin;
 use crate::audio::InternalAudioPlugin;
 use crate::loading::LoadingPlugin;
 use crate::menu::MenuPlugin;
-use crate::player::PlayerPlugin;
 
 use bevy::app::App;
 #[cfg(debug_assertions)]
@@ -42,7 +42,7 @@ impl Plugin for GamePlugin {
 			MenuPlugin,
 			ActionsPlugin,
 			InternalAudioPlugin,
-			PlayerPlugin,
+			AgentPlugin,
 		));
 
 		#[cfg(debug_assertions)]
