@@ -38,7 +38,7 @@ fn setup_menu(
 	mut state: ResMut<NextState<GameState>>,
 ) {
 	info!("menu");
-	state.set(GameState::Playing);
+	state.set(GameState::LevelGeneration);
 	commands.spawn(Camera2dBundle::default());
 	commands
 		.spawn((
