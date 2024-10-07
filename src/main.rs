@@ -5,6 +5,20 @@ use bevy::DefaultPlugins;
 use licemind::GamePlugin;
 
 fn main() {
+	let args: Vec<String> = std::env::args().collect();
+
+	let first = args.get(1);
+	if let Some(first) = first {
+		match first.as_str() {
+			"levelgen" => licemind::level::convert_levels(),
+			_ => eprintln!("invalid sub-command: '{first}'"),
+		};
+	} else {
+		game_main();
+	};
+}
+
+fn game_main() {
 	App::new()
 		.insert_resource(Msaa::Off)
 		.insert_resource(ClearColor(Color::linear_rgb(0.1, 0.1, 0.1)))

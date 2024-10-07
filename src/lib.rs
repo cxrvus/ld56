@@ -3,7 +3,7 @@
 mod agent;
 mod audio;
 mod cfg;
-mod level;
+pub mod level;
 mod loading;
 mod menu;
 mod player_actions;
