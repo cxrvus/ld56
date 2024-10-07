@@ -46,7 +46,7 @@ fn spawn_agent(mut commands: Commands, sprites: Res<SpriteAssets>) {
 }
 
 #[derive(Component)]
-pub struct Player;
+pub struct _Player;
 
 #[derive(Component, Default)]
 pub struct Agent {
