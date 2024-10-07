@@ -3,8 +3,8 @@
 mod agent;
 mod audio;
 mod cfg;
+mod level;
 mod loading;
-mod map;
 mod menu;
 mod player_actions;
 
@@ -20,7 +20,7 @@ use bevy::app::App;
 #[cfg(debug_assertions)]
 use bevy::diagnostic::{FrameTimeDiagnosticsPlugin, LogDiagnosticsPlugin};
 use bevy::prelude::*;
-use map::LevelPlugin;
+use level::LevelPlugin;
 
 // This example game uses States to separate logic
 // See https://bevy-cheatbook.github.io/programming/states.html
