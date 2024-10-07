@@ -2,7 +2,7 @@ use bevy::asset::AssetMetaCheck;
 use bevy::prelude::*;
 use bevy::DefaultPlugins;
 
-use licemind::GamePlugin;
+use licemind::{levelgen, GamePlugin};
 
 fn main() {
 	let args: Vec<String> = std::env::args().collect();
@@ -10,7 +10,7 @@ fn main() {
 	let first = args.get(1);
 	if let Some(first) = first {
 		match first.as_str() {
-			"levelgen" => licemind::level::convert_levels(),
+			"levelgen" => levelgen::convert_levels(),
 			_ => eprintln!("invalid sub-command: '{first}'"),
 		};
 	} else {

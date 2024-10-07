@@ -13,7 +13,3 @@ fn generate_map(mut next_state: ResMut<NextState<GameState>>, mut _commands: Com
 	// todo: implement
 	next_state.set(GameState::Playing);
 }
-
-pub fn convert_levels() {
-	// todo: implement
-}
